@@ -1,0 +1,94 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
+
+palette:
+  blue: "#89B4FA"
+  closer: p:os
+  lavender: "#B4BEFE"
+  os: "#ACB0BE"
+  pink: "#F5C2E7"
+secondary_prompt:
+  template: "\uf105 "
+  foreground: p:closer
+  background: transparent
+transient_prompt:
+  template: "➜ "
+  background: transparent
+  foreground_templates:
+  - "{{if gt .Code 0}}red{{end}}"
+  - "{{if eq .Code 0}}p:closer{{end}}"
+blocks:
+- type: prompt
+  alignment: left
+  segments:
+  - style: plain
+    template: "{{.Icon}} "
+    foreground: p:os
+    type: os
+  - style: plain
+    template: "{{ .UserName }}@{{ .HostName }} "
+    foreground: p:blue
+    type: session
+  - properties:
+      style: full
+    style: plain
+    template: "{{ .Path }} "
+    foreground: p:pink
+    type: path
+  - properties:
+      branch_icon: "\ue725 "
+      cherry_pick_icon: "\ue29b "
+      commit_icon: "\uf417 "
+      fetch_status: true
+      fetch_upstream_icon: true
+      merge_icon: "\ue727 "
+      no_commits_icon: "\uf0c3 "
+      rebase_icon: "\ue728 "
+      revert_icon: "\uf0e2 "
+      tag_icon: "\uf412 "
+    style: plain
+    template: "{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Staging.Changed) (.Working.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}"
+    foreground: p:lavender
+    type: git
+  newline: true
+- type: prompt
+  alignment: right
+  segments:
+  - properties:
+      always_enabled: true
+    style: plain
+    template: " {{ if gt .Code 0 }}\uea76{{else}}\uf42e{{ end }} "
+    type: status
+    foreground_templates:
+    - "{{ if gt .Code 0 }}red{{ end }}"
+    - "{{ if eq .Code 0 }}green{{ end }}"
+  - properties:
+      display_mode: files
+    style: plain
+    template: " \ue235 {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}{{ .Venv }} {{ end }}{{ .Full }}{{ end }} "
+    foreground: blue
+    background: transparent
+    type: python
+  - properties:
+      time_format: 3:04:05 PM
+    style: plain
+    template: " {{ .CurrentDate | date .Format }}<yellow> \ue641 </>"
+    foreground: yellow
+    background: transparent
+    type: time
+  - style: plain
+    template: " {{ .FormattedMs }}<cyan> \uf252 </>"
+    foreground: cyan
+    background: transparent
+    type: executiontime
+- type: prompt
+  alignment: left
+  segments:
+  - style: plain
+    template: ➜
+    type: text
+    foreground_templates:
+    - "{{if gt .Code 0}}red{{end}}"
+    - "{{if eq .Code 0}}p:closer{{end}}"
+  newline: true
+version: 3
+final_space: true
